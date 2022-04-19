@@ -1,3 +1,12 @@
+# Software testing + debugging
+Since there was no documentation provided by the developers, here are the steps I took to try to get the app running:
+1. Open the project in Intellij.
+2. Install MySQL server and create a local database and user (remember to give user db priviledges) for the app.
+3. Edit `src/main/resources/application.properties` to match the config used in step 2.
+4. Run `src/main/java/com/example/IMS/ImsApApplication.java` to start the Spring Boot app.
+5. Visit [http://localhost:8086/](http://localhost:8086/) to see it in a browser.
+
+--- 
 # Inventory Management System 
 
 Organizations use management systems to regularize their tasks. They can be simple or complex depending on the needs of the organization. An inventory management system (or inventory system) is the process by which you track your goods throughout your entire supply chain, from purchasing to production to end sales. It governs how you approach inventory management for your business.
