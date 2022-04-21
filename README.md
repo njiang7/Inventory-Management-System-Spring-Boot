@@ -1,7 +1,7 @@
 # Software testing + debugging
 Since there was no documentation provided by the developers, here are the steps I took to try to get the app running:
 1. Open the project in Intellij.
-2. Install MySQL server and create a local database and user (remember to give user db priviledges) for the app.
+2. Install MySQL server and create a local database and user (remember to give user db priviledges) for the app. Refer to this [website](https://spring.io/guides/gs/accessing-data-mysql/) for details.
 3. Edit `src/main/resources/application.properties` to match the config used in step 2.
 4. Run `src/main/java/com/example/IMS/ImsApApplication.java` to start the Spring Boot app.
 5. Visit [http://localhost:8086/](http://localhost:8086/) to see it in a browser.
