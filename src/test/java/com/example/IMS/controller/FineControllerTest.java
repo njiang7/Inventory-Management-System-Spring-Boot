@@ -6,7 +6,6 @@ import com.example.IMS.model.Borrower;
 import com.example.IMS.model.Loan;
 import com.example.IMS.service.BorrowerService;
 import com.example.IMS.service.ItemIssuanceService;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
