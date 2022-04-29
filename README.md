@@ -1,5 +1,7 @@
 # Software testing + debugging
 
+[Link to the GitHub repository for this Readme](https://github.com/njiang7/Inventory-Management-System-Spring-Boot)
+
 Since there was no documentation provided by the developers, here are the steps I took to try to get the app running:
 1. Clone from github and import project into IntelliJ.
 2. Download and install MySQL server from [here](https://dev.mysql.com/downloads/mysql/).
