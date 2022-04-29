@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.ArrayList;
@@ -80,6 +81,30 @@ public class FineControllerTest {
 
         mvc.perform(MockMvcRequestBuilders
                 .post("/FinePayment/" + borrowerId)).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/FineView"));
+
+    }
+
+    // simulate exception thrown when updating fine fails
+    // however, updateBorrower doesn't have throw exception in signature so this branch/statements is impossible to be reached
+    @Test
+    public void testPostFinePayment2() throws Exception {
+        Borrower borrower = new Borrower();
+        long borrowerId = 1;
+        borrower.setId(borrowerId);
+        String err = "";
+        when(borrowerService.validateBorrowerId(borrowerId))
+                .thenReturn(err);
+        when(borrowerService.getBorrowerById(borrowerId))
+                .thenReturn(borrower);
+
+        doThrow(new Exception())
+                .when(borrowerService)
+                        .updateBorrower(borrower);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/FinePayment/" + borrowerId)).andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/FineView"));
 

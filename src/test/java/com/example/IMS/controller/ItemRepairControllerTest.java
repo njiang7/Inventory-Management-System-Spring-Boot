@@ -96,7 +96,7 @@ class ItemRepairControllerTest {
         when(vendorService.validateVendorId(3))
                 .thenReturn(err1);
 
-        String err2 = "";
+        String err2 = "error";
         when(itemService.validateItemId(2))
                 .thenReturn(err2);
 

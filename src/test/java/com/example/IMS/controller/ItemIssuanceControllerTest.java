@@ -136,7 +136,7 @@ class ItemIssuanceControllerTest {
         when(borrowerService.getBorrowerById(3))
                 .thenReturn(borrower);
 
-        String err2 = "";
+        String err2 = "error";
         when(itemService.validateItemId(2))
                 .thenReturn(err2);
 

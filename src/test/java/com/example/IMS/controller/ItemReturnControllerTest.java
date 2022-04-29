@@ -69,43 +69,93 @@ class ItemReturnControllerTest {
     // fails: Null Pointer Exception Caught in Item Return Controller.
     @Test
     void createPost() throws Exception {
-        ItemReturnDto itemReturnDto = new ItemReturnDto(1,2,"date2");
+        long itemId = 1;
+        long borrowerId = 2;
+        long loanId = 3;
+
+        ItemReturnDto itemReturnDto = new ItemReturnDto(itemId,borrowerId,"date2");
         Loan loan = new Loan();
-        loan.setId(3);
+        loan.setId(loanId);
         loan.setLoanDuration(10);
         loan.setIssueDate("date1");
         loan.setReturnDate("date2");
         loan.setTotalFine(0);
 
         String err1 = "";
-        when(borrowerService.validateBorrowerId(2))
+        when(borrowerService.validateBorrowerId(borrowerId))
                 .thenReturn(err1);
 
         Borrower borrower = new Borrower();
-        borrower.setId(2);
+        borrower.setId(borrowerId);
         borrower.addLoan(loan);
         loan.setBorrower(borrower);
-        when(borrowerService.getBorrowerById(2))
+        when(borrowerService.getBorrowerById(borrowerId))
                 .thenReturn(borrower);
 
         String err2 = "";
-        when(itemService.validateItemId(1))
+        when(itemService.validateItemId(itemId))
                 .thenReturn(err2);
 
         Item item = new Item();
-        item.setId(1);
+        item.setId(itemId);
         item.setQuantity(1);
         item.addLoan(loan);
         loan.setItem(item);
-        when(itemService.getItemById(2))
+        when(itemService.getItemById(itemId))
                 .thenReturn(item);
 
-        when(itemIssuanceService.findItemIssued(2, 1))
+        when(itemIssuanceService.findItemIssued(borrower.getId(), item.getId()))
                 .thenReturn(loan);
 
         mvc.perform(post("/ItemReturnCreate").flashAttr("itemReturnDto", itemReturnDto))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/ItemReturnView"));
+
+    }
+
+    // case when error is not empty
+    @Test
+    void createPost2() throws Exception {
+        long itemId = 1;
+        long borrowerId = 2;
+        long loanId = 3;
+
+        ItemReturnDto itemReturnDto = new ItemReturnDto(itemId,borrowerId,"date2");
+        Loan loan = new Loan();
+        loan.setId(loanId);
+        loan.setLoanDuration(10);
+        loan.setIssueDate("date1");
+        loan.setReturnDate("date2");
+        loan.setTotalFine(0);
+
+        String err1 = "err";
+        when(borrowerService.validateBorrowerId(borrowerId))
+                .thenReturn(err1);
+
+        Borrower borrower = new Borrower();
+        borrower.setId(borrowerId);
+        borrower.addLoan(loan);
+        loan.setBorrower(borrower);
+        when(borrowerService.getBorrowerById(borrowerId))
+                .thenReturn(borrower);
+
+        String err2 = "err";
+        when(itemService.validateItemId(itemId))
+                .thenReturn(err2);
+
+        Item item = new Item();
+        item.setId(itemId);
+        item.setQuantity(1);
+        item.addLoan(loan);
+        loan.setItem(item);
+        when(itemService.getItemById(itemId))
+                .thenReturn(item);
+
+        when(itemIssuanceService.findItemIssued(borrower.getId(), item.getId()))
+                .thenReturn(loan);
+
+        mvc.perform(post("/ItemReturnCreate").flashAttr("itemReturnDto", itemReturnDto))
+                .andExpect(status().isOk());
 
     }
 }
