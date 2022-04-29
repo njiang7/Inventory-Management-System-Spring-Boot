@@ -4,6 +4,8 @@ import com.example.IMS.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -465,4 +467,44 @@ public class ModelTests {
         assertEquals(vendor, itemRepair.getVendor());
     }
 
+    // removing a loan from item should set the borrower to null
+    @Test
+    void itemRemoveLoan() {
+        item.addLoan(loan);
+        loan.setBorrower(borrower);
+        item.removeLoan(loan);
+        assertNull(loan.getBorrower());
+    }
+
+    @Test
+    void itemIncreaseQuantity() {
+        item.setQuantity(1);
+        item.increaseQuantity();
+        assertEquals(2, item.getQuantity());
+    }
+
+    // if calling loan.equals on not a loan object, return false
+    @Test
+    void loanEqualsWrongObjectType() {
+        assertFalse(loan.equals(borrower));
+    }
+
+    // return false if comparing a loan without id
+    @Test
+    void loanEqualsNullId() {
+        assertFalse(loan.equals(new Loan()));
+    }
+
+    // return date is empty causes error
+    @Test
+    void loanCalculateFineReturnDateEmpty() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(out);
+        System.setOut(output);
+
+        Loan loan = new Loan();
+        loan.calculateFine();
+        String result = out.toString();
+        assertTrue(result.contains("Null Pointer Exception Caught"));
+    }
 }
