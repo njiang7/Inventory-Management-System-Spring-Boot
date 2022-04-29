@@ -24,7 +24,7 @@ How to run tests:
 - We based our GUI tests on the video shown below that was created by the apps developers. However, we found that the version of the app in this repository was lacking much of functionality in the video, which reduced the amount of GUI testing we could actually achieve.
 - There was not a lot of documentation in the code, so most of the black box testing ended up being more like grey box testing. We still tried to employ black box testing techniques such as equivalence partioning, boundary value analysis, and error guessing whenever we could. 
 - We found 11 faults in the code, and they are discussed in the comments in the test files. 
-- Although we believe we conducted systematic and thorough testing, the lack of documentation and specifications for this app leads us to conclude that the app still has faults and is very much a work in progress, as shown by the GUI testing and actually trying to use the app.
+- Although we believe we conducted systematic and thorough testing, the lack of documentation and specifications for this app leads us to conclude that the app still has faults we did not find and is very much a work in progress, as shown by the GUI testing and actually trying to use the app.
 
 (end of Readme for STAD)
 --- 
