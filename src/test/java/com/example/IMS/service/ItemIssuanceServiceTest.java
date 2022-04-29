@@ -242,4 +242,14 @@ class ItemIssuanceServiceTest {
         List<Loan> result = service.getItemsWithFine();
         assertEquals(0, result.size());
     }
+
+    @Test
+    void saveItemIssuedNoException() {
+        assertDoesNotThrow(() -> service.saveItemIssued(new Loan()));
+    }
+
+    @Test
+    void deleteIssuedItemByIdNoException() {
+        assertDoesNotThrow(() -> service.deleteIssuedItemById(1));
+    }
 }

@@ -49,6 +49,10 @@ class BorrowerServiceTest {
         });
     }
 
+    @Test
+    void updateBorrowerNoException() {
+        assertDoesNotThrow(() -> service.updateBorrower(new Borrower()));
+    }
 
     // ret id of borrower, or -1 if not found
     @Test

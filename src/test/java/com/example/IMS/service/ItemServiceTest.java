@@ -147,5 +147,15 @@ class ItemServiceTest {
 
     }
 
+    @Test
+    void saveItemNoException() {
+        assertDoesNotThrow(() -> service.saveItem(new Item()));
+    }
+
+    @Test
+    void deleteItemNoException() {
+        assertDoesNotThrow(() -> service.deleteItem(1));
+    }
+
 
 }

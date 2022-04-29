@@ -60,4 +60,9 @@ class ItemTypeServiceTest {
         String notExist = "not exist";
         assertEquals("ItemType with name: " + notExist + " does not exist.", service.validateItemTypeByName(notExist));
     }
+
+    @Test
+    void saveItemTypeNoException() {
+        assertDoesNotThrow(() -> service.saveItemType(new ItemType()));
+    }
 }

@@ -35,6 +35,21 @@ class ItemRepairServiceTest {
         assertEquals(itemRepair, service.findItemRepairById(id));
     }
 
+    @Test
+    void getAllRepairItemsNoException() {
+        assertDoesNotThrow(() -> service.getAllRepairItems());
+    }
+
+    @Test
+    void saveItemRepairNoException() {
+        assertDoesNotThrow(() -> service.saveItemRepair(new ItemRepair()));
+    }
+
+    @Test
+    void deleteItemRepairByIdNoException() {
+        assertDoesNotThrow(() -> service.deleteItemRepairById(1));
+    }
+
     // fails, exception not thrown
     @Test
     void findItemRepairByIdNotFound() {
