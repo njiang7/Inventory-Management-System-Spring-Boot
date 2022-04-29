@@ -1,11 +1,22 @@
 # Software testing + debugging
+
 Since there was no documentation provided by the developers, here are the steps I took to try to get the app running:
-1. Open the project in Intellij.
-2. Install MySQL server and create a local database and user (remember to give user db priviledges) for the app. Refer to this [website](https://flaviocopes.com/mysql-how-to-install/) for details.
-3. `mysql> CREATE DATABASE mydb`
-3. Edit `src/main/resources/application.properties` to match the config used in step 2.
+1. Clone from github and import project into IntelliJ.
+2. Download and install MySQL server from [here](https://dev.mysql.com/downloads/mysql/).
+3. Create a local database by following these steps in Terminal, [link for more details](https://spring.io/guides/gs/accessing-data-mysql/):
+-  `$ sudo mysql --password`
+-  `create database mydb;`
+-  `create user 'springuser'@'%' identified by 'password';`
+-  `grant all on mydb.* to 'springuser'@'%';`
 4. Run `src/main/java/com/example/IMS/ImsApApplication.java` to start the Spring Boot app.
-5. Visit [http://localhost:8086/](http://localhost:8086/) to see it in a browser.
+9. Visit [http://localhost:8086/](http://localhost:8086/) to see it in a browser.
+
+How to run tests:
+1. All of the unit tests can be run in IntelliJ normally.
+2. To generate a Jacoco report, run the test command in Maven either through the GUI sidebar (underneath Lifecycle) in Intellij or `mvn test` in Terminal. The report should be generated as an html file under `/target/site/jacoco/index.html`.
+3. To run the GUI tests, clone the Selenium project from this [repository](https://github.com/njiang7/seleniumTests) and import into IntelliJ.
+
+[Presentation Slides](https://docs.google.com/presentation/d/19hat_Rq2T6M-MDNm6B_IVFE0hMuOp1OfI8BYF5ReItI/edit?usp=sharing)
 
 --- 
 # Inventory Management System 
