@@ -40,6 +40,7 @@ class ItemServiceTest {
         assertEquals(item, service.getItemById(id));
     }
 
+    // fails exception not thrown
     @Test
     void getItemByIdNotFound() {
         Optional<Item> optional = Optional.empty();
