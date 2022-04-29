@@ -13,11 +13,20 @@ Since there was no documentation provided by the developers, here are the steps 
 
 How to run tests:
 1. All of the unit tests can be run in IntelliJ normally.
-2. To generate a Jacoco report, run the test command in Maven either through the GUI sidebar (underneath Lifecycle) in Intellij or `mvn test` in Terminal. The report should be generated as an html file under `/target/site/jacoco/index.html`.
+2. To generate a Jacoco report, run the test command in Maven either through the GUI sidebar (underneath Lifecycle) in Intellij or `mvn test` in Terminal. The report should be generated as an html file under `/target/site/jacoco/index.html`. I have also uploaded a pregenerated report in this repository. 
 3. To run the GUI tests, clone the Selenium project from this [repository](https://github.com/njiang7/seleniumTests) and import into IntelliJ.
 
 [Presentation Slides](https://docs.google.com/presentation/d/19hat_Rq2T6M-MDNm6B_IVFE0hMuOp1OfI8BYF5ReItI/edit?usp=sharing)
 
+## Additional comments:
+- Although in our proposal we aimed only for 100% line coverage, we were also able to acheive very high branch coverage (95%) with our tests and we ended up with 98% line coverage, with a few lines missing because they were unreachable.
+- We originally planned to only conduct GUI testing in addition to unit tests, but because Spring Boot applications are structured such that many classes use services from others due to the MVC design pattern, we also made use of test doubles and stubbing in our unit tests to be able to test methods.
+- We based our GUI tests on the video shown below that was created by the apps developers. However, we found that the version of the app in this repository was lacking much of functionality in the video, which reduced the amount of GUI testing we could actually achieve.
+- There was not a lot of documentation in the code, so most of the black box testing ended up being more like grey box testing. We still tried to employ black box testing techniques such as equivalence partioning, boundary value analysis, and error guessing whenever we could. 
+- We found 11 faults in the code, and they are discussed in the comments in the test files. 
+- Although we believe we conducted systematic and thorough testing, the lack of documentation and specifications for this app leads us to conclude that the app still has faults and is very much a work in progress, as shown by the GUI testing and actually trying to use the app.
+
+(end of Readme for STAD)
 --- 
 # Inventory Management System 
 
