@@ -72,6 +72,19 @@ class ItemConvertorTest {
         assertTrue(result.contains("Null Pointer Exception Caught in Item Convertor"));
     }
 
+    @Test
+    void modelToDtoNullObject() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(out);
+        System.setOut(output);
+
+        // item is null
+        itemConvertor.modelToDto((Item) null);
+
+        String result = out.toString();
+        assertTrue(result.contains("Null Pointer Exception Caught in Item Convertor"));
+    }
+
     // specs: convert a list of model object to a list of data transfer object
     @Test
     void modelToDtoArraySuccess() {
