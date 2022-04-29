@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemReturnController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.controller</a> &gt; <span class="el_source">ItemReturnController.java</span></div><h1>ItemReturnController.java</h1><pre class="source lang-java linenums">package com.example.IMS.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.IMS.Utilities.Helper;
+import com.example.IMS.convertor.ItemIssuanceConvertor;
+import com.example.IMS.dto.ItemReturnDto;
+import com.example.IMS.model.Borrower;
+import com.example.IMS.model.Item;
+import com.example.IMS.model.Loan;
+import com.example.IMS.service.BorrowerService;
+import com.example.IMS.service.ItemIssuanceService;
+import com.example.IMS.service.ItemService;
+
+@Controller
+<span class="fc" id="L25">public class ItemReturnController {</span>
+
+	@Autowired
+	private BorrowerService borrowerService;
+
+	@Autowired
+	private ItemService itemService;
+
+	@Autowired
+	private ItemIssuanceService itemIssuanceService;
+
+	@Autowired
+	private ItemIssuanceConvertor itemIssuanceConvertor;
+
+	@GetMapping(&quot;/ItemReturnView&quot;)
+	public String Index(Model model) {
+<span class="fc" id="L41">		model.addAttribute(&quot;ItemIssuanceDtoList&quot;,</span>
+<span class="fc" id="L42">				itemIssuanceConvertor.modelToDto(itemIssuanceService.getAllReturnedItem()));</span>
+<span class="fc" id="L43">		return &quot;/Item Return/View&quot;;</span>
+	}
+
+	@GetMapping(&quot;/ItemReturnCreate&quot;)
+	public String Create(Model model) {
+<span class="fc" id="L48">		ItemReturnDto itemReturnDto = new ItemReturnDto();</span>
+<span class="fc" id="L49">		model.addAttribute(&quot;itemReturnDto&quot;, itemReturnDto);</span>
+<span class="fc" id="L50">		return &quot;/Item Return/Create&quot;;</span>
+	}
+
+	@PostMapping(&quot;/ItemReturnCreate&quot;)
+	public String Create(@Valid @ModelAttribute(&quot;itemReturnDto&quot;) ItemReturnDto itemReturnDto, BindingResult result) {
+<span class="fc" id="L55">		itemReturnDto.setReturnDate(Helper.getCurrentTime());</span>
+<span class="fc" id="L56">		Borrower borrower = null;</span>
+<span class="fc" id="L57">		Item item = null;</span>
+<span class="fc" id="L58">		Loan loan = null;</span>
+
+<span class="fc" id="L60">		String err = borrowerService.validateBorrowerId(itemReturnDto.getBorrowerId());</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (!err.isEmpty()) {</span>
+<span class="fc" id="L62">			ObjectError error = new ObjectError(&quot;globalError&quot;, err);</span>
+<span class="fc" id="L63">			result.addError(error);</span>
+<span class="fc" id="L64">		} else {</span>
+<span class="fc" id="L65">			borrower = borrowerService.getBorrowerById(itemReturnDto.getBorrowerId());</span>
+		}
+<span class="fc" id="L67">		err = itemService.validateItemId(itemReturnDto.getItemId());</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (!err.isEmpty()) {</span>
+<span class="fc" id="L69">			ObjectError error = new ObjectError(&quot;globalError&quot;, err);</span>
+<span class="fc" id="L70">			result.addError(error);</span>
+<span class="fc" id="L71">		} else {</span>
+<span class="fc" id="L72">			item = itemService.getItemById(itemReturnDto.getItemId());</span>
+		}
+
+		try {
+<span class="fc" id="L76">			loan = itemIssuanceService.findItemIssued(borrower.getId(), item.getId());</span>
+<span class="fc" id="L77">			borrower.removeLoan(loan);</span>
+<span class="fc" id="L78">			item.removeLoan(loan);</span>
+<span class="fc" id="L79">			loan.setReturnDate();</span>
+<span class="fc" id="L80">			loan.calculateFine();</span>
+<span class="fc" id="L81">			item.increaseQuantity();</span>
+<span class="fc" id="L82">			itemService.saveItem(item);</span>
+<span class="fc" id="L83">			itemIssuanceService.saveItemIssued(loan);</span>
+<span class="fc" id="L84">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L85">			System.out.println(&quot;Null Pointer Exception Caught in Item Return Controller.&quot;);</span>
+<span class="fc" id="L86">			err = &quot;Loan ID does not exist. Invalid input&quot;;</span>
+<span class="fc" id="L87">			ObjectError error = new ObjectError(&quot;globalError&quot;, err);</span>
+<span class="fc" id="L88">			result.addError(error);</span>
+<span class="fc" id="L89">		}</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L91">			return &quot;/Item Return/Create&quot;;</span>
+		}
+<span class="fc" id="L93">		return &quot;redirect:/ItemReturnView&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

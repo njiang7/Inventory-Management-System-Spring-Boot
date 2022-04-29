@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.model</a> &gt; <span class="el_source">InventoryManager.java</span></div><h1>InventoryManager.java</h1><pre class="source lang-java linenums">package com.example.IMS.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = &quot;Inventory_Manager&quot;)
+<span class="fc" id="L17">public class InventoryManager {</span>
+	
+	@Id
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Column(name = &quot;manager_id&quot;)
+	private long id;
+	
+	@Column(name = &quot;manager_name&quot;)
+	private String name;
+	
+	@Column(name = &quot;manager_email&quot;)
+	private String email;
+	
+	@Column(name = &quot;manager_password&quot;)
+	private String password;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = &quot;manager_type_fk&quot;)
+	private ManagerType managerType;
+
+	public long getId() {
+<span class="fc" id="L38">		return id;</span>
+	}
+
+	public void setId(long id) {
+<span class="fc" id="L42">		this.id = id;</span>
+<span class="fc" id="L43">	}</span>
+
+	public String getName() {
+<span class="fc" id="L46">		return name;</span>
+	}
+
+	public void setName(String name) {
+<span class="fc" id="L50">		this.name = name;</span>
+<span class="fc" id="L51">	}</span>
+
+	public String getEmail() {
+<span class="fc" id="L54">		return email;</span>
+	}
+
+	public void setEmail(String email) {
+<span class="fc" id="L58">		this.email = email;</span>
+<span class="fc" id="L59">	}</span>
+
+	public String getPassword() {
+<span class="fc" id="L62">		return password;</span>
+	}
+
+	public void setPassword(String password) {
+<span class="fc" id="L66">		this.password = password;</span>
+<span class="fc" id="L67">	}</span>
+
+	public ManagerType getManagerType() {
+<span class="fc" id="L70">		return managerType;</span>
+	}
+
+	public void setManagerType(ManagerType managerType) {
+<span class="fc" id="L74">		this.managerType = managerType;</span>
+<span class="fc" id="L75">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

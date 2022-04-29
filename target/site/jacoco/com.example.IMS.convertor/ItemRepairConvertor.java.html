@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemRepairConvertor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.convertor</a> &gt; <span class="el_source">ItemRepairConvertor.java</span></div><h1>ItemRepairConvertor.java</h1><pre class="source lang-java linenums">package com.example.IMS.convertor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.example.IMS.dto.ItemRepairDto;
+import com.example.IMS.model.ItemRepair;
+import com.example.IMS.service.ItemService;
+import com.example.IMS.service.VendorService;
+
+@Component
+<span class="fc" id="L15">public class ItemRepairConvertor {</span>
+
+	@Autowired
+	private VendorService vendorService;
+
+	@Autowired
+	private ItemService itemService;
+
+	public ItemRepairDto modelToDto(ItemRepair item) {
+<span class="fc" id="L24">		long itemId = 0;</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">		if (item.getItem() != null) {</span>
+<span class="fc" id="L26">			itemId = item.getItem().getId();</span>
+		}
+<span class="fc" id="L28">		long itemRepairId = item.getId();</span>
+<span class="fc" id="L29">		long vendorId = item.getVendor().getId();</span>
+<span class="fc" id="L30">		double itemPrice = item.getPrice();</span>
+<span class="fc" id="L31">		double repairCost = item.getCost();</span>
+<span class="fc" id="L32">		ItemRepairDto itemRepairDto = new ItemRepairDto(itemRepairId, itemId, vendorId, repairCost, itemPrice);</span>
+<span class="fc" id="L33">		return itemRepairDto;</span>
+	}
+
+	public ItemRepair DtoToModel(ItemRepairDto item) {
+<span class="fc" id="L37">		ItemRepair itemRepair = new ItemRepair();</span>
+<span class="fc" id="L38">		itemRepair.setId(item.getId());</span>
+<span class="fc" id="L39">		itemRepair.setCost(item.getRepairCost());</span>
+<span class="fc" id="L40">		itemRepair.setPrice(item.getPrice());</span>
+<span class="fc" id="L41">		itemRepair.setItem(itemService.getItemById(item.getItemId()));</span>
+<span class="fc" id="L42">		itemRepair.setVendor(vendorService.getVendorById(item.getVendorId()));</span>
+<span class="fc" id="L43">		return itemRepair;</span>
+	}
+
+	public List&lt;ItemRepairDto&gt; modelToDto(List&lt;ItemRepair&gt; item) {
+<span class="fc" id="L47">		List&lt;ItemRepairDto&gt; DtoList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">		int size = item.size();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L50">			DtoList.add(modelToDto(item.get(i)));</span>
+		}
+<span class="fc" id="L52">		return DtoList;</span>
+	}
+
+	public List&lt;ItemRepair&gt; DtoToModel(List&lt;ItemRepairDto&gt; item) {
+<span class="fc" id="L56">		List&lt;ItemRepair&gt; itemList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">		int size = item.size();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L59">			itemList.add(DtoToModel(item.get(i)));</span>
+		}
+<span class="fc" id="L61">		return itemList;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FineController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.controller</a> &gt; <span class="el_source">FineController.java</span></div><h1>FineController.java</h1><pre class="source lang-java linenums">package com.example.IMS.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.IMS.dto.FineDto;
+import com.example.IMS.model.Borrower;
+import com.example.IMS.service.BorrowerService;
+import com.example.IMS.service.ItemIssuanceService;
+
+@Controller
+<span class="fc" id="L21">public class FineController {</span>
+
+	@Autowired
+	private BorrowerService borrowerService;
+
+	@Autowired
+	private ItemIssuanceService itemIssuanceService;
+
+	@GetMapping(&quot;/FineView&quot;)
+	public String Index(Model model) {
+<span class="fc" id="L31">		model.addAttribute(&quot;itemsWithFineList&quot;, itemIssuanceService.getItemsWithFine());</span>
+<span class="fc" id="L32">		return &quot;/Fine/View&quot;;</span>
+	}
+
+	@GetMapping(&quot;/FineCreate&quot;)
+	public String Create(Model model) {
+<span class="fc" id="L37">		FineDto fineDto = new FineDto();</span>
+<span class="fc" id="L38">		model.addAttribute(&quot;fineDto&quot;, fineDto);</span>
+<span class="fc" id="L39">		return &quot;/Fine/Create&quot;;</span>
+	}
+
+	@PostMapping(&quot;/FineDetails&quot;)
+	public String Details(@Valid @ModelAttribute(&quot;fineDto&quot;) FineDto fineDto, BindingResult result) {
+<span class="fc" id="L44">		Borrower borrower = borrowerService.getBorrowerById(fineDto.getBorrowerId());</span>
+<span class="fc" id="L45">		double totalFine = borrower.totalFine();</span>
+<span class="fc" id="L46">		fineDto.setTotalFine(totalFine);</span>
+<span class="fc" id="L47">		return &quot;/Fine/Details&quot;;</span>
+	}
+
+	@PostMapping(&quot;/FinePayment/{borrowerId}&quot;)
+	public String FinePayment(@PathVariable(value = &quot;borrowerId&quot;) long borrowerId,
+			@Valid @ModelAttribute(&quot;fineDto&quot;) FineDto fineDto, BindingResult result) {
+<span class="fc" id="L53">		Borrower borrower = null;</span>
+<span class="fc" id="L54">		String err = borrowerService.validateBorrowerId(fineDto.getBorrowerId());</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if (!err.isEmpty()) {</span>
+<span class="fc" id="L56">			ObjectError error = new ObjectError(&quot;globalError&quot;, err);</span>
+<span class="fc" id="L57">			result.addError(error);</span>
+<span class="fc" id="L58">		} else {</span>
+<span class="fc" id="L59">			borrower = borrowerService.getBorrowerById(fineDto.getBorrowerId());</span>
+		}
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L62">			return &quot;/Fine/Create&quot;;</span>
+		}
+		try {
+<span class="fc" id="L65">			borrower.updateFine(fineDto.getFinePaid());</span>
+<span class="fc" id="L66">			borrowerService.updateBorrower(borrower);</span>
+<span class="nc" id="L67">		} catch (Exception e) {</span>
+<span class="nc" id="L68">			System.out.println(&quot;Exception caught in Fine Controller.&quot;);</span>
+<span class="nc" id="L69">			err = &quot;Unable to update borrower fine details.&quot;;</span>
+<span class="nc" id="L70">			ObjectError error = new ObjectError(&quot;globalError&quot;, err);</span>
+<span class="nc" id="L71">			result.addError(error);</span>
+<span class="fc" id="L72">		}</span>
+<span class="fc" id="L73">		return &quot;redirect:/FineView&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

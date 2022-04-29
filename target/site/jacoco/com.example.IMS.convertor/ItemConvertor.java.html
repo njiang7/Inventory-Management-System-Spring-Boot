@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemConvertor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.convertor</a> &gt; <span class="el_source">ItemConvertor.java</span></div><h1>ItemConvertor.java</h1><pre class="source lang-java linenums">package com.example.IMS.convertor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.example.IMS.dto.ItemDto;
+import com.example.IMS.model.Item;
+
+@Component
+<span class="fc" id="L12">public class ItemConvertor {</span>
+
+	public ItemDto modelToDto(Item item) {
+<span class="fc" id="L15">		ItemDto itemDto = new ItemDto();</span>
+<span class="fc" id="L16">		itemDto.setItemId(item.getId());</span>
+<span class="fc" id="L17">		itemDto.setFineRate(item.getFineRate());</span>
+<span class="fc" id="L18">		itemDto.setItemPrice(item.getPrice());</span>
+<span class="fc" id="L19">		itemDto.setInvoiceNumber(item.getInvoiceNumber());</span>
+<span class="fc" id="L20">		itemDto.setItemName(item.getName());</span>
+<span class="fc" id="L21">		itemDto.setItemQuantity(item.getQuantity());</span>
+		try {
+<span class="fc" id="L23">			itemDto.setItemType(item.getItemType().getTypeName());</span>
+<span class="fc" id="L24">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L25">			System.out.println(&quot;Null Pointer Exception Caught in Item Convertor.&quot;);</span>
+<span class="fc" id="L26">			itemDto.setItemType(&quot;-&quot;);</span>
+<span class="fc" id="L27">		}</span>
+		try {
+<span class="fc" id="L29">			itemDto.setVendorName(item.getVendor().getName());</span>
+<span class="fc" id="L30">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L31">			System.out.println(&quot;Null Pointer Exception Caught in Item Convertor.&quot;);</span>
+<span class="fc" id="L32">			itemDto.setVendorName(&quot;-&quot;);</span>
+<span class="fc" id="L33">		}</span>
+
+<span class="fc" id="L35">		return itemDto;</span>
+	}
+
+	public List&lt;ItemDto&gt; modelToDto(List&lt;Item&gt; itemList) {
+<span class="fc" id="L39">		List&lt;ItemDto&gt; itemDtoList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		for (Item item : itemList) {</span>
+<span class="fc" id="L41">			itemDtoList.add(modelToDto(item));</span>
+<span class="fc" id="L42">		}</span>
+<span class="fc" id="L43">		return itemDtoList;</span>
+	}
+
+	public Item dtoToModel(ItemDto itemDto) {
+<span class="fc" id="L47">		Item item = new Item();</span>
+<span class="fc" id="L48">		item.setFineRate(itemDto.getFineRate());</span>
+<span class="fc" id="L49">		item.setInvoiceNumber(itemDto.getInvoiceNumber());</span>
+<span class="fc" id="L50">		item.setQuantity(itemDto.getItemQuantity());</span>
+<span class="fc" id="L51">		item.setPrice(itemDto.getItemPrice());</span>
+<span class="fc" id="L52">		item.setName(itemDto.getItemName());</span>
+<span class="fc" id="L53">		return item;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemRepairDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IMS-AP</a> &gt; <a href="index.source.html" class="el_package">com.example.IMS.dto</a> &gt; <span class="el_source">ItemRepairDto.java</span></div><h1>ItemRepairDto.java</h1><pre class="source lang-java linenums">package com.example.IMS.dto;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+public class ItemRepairDto {
+
+	private long id;
+
+	@NotNull(message = &quot;Item ID is mandatory&quot;)
+	@Min(value = 1, message = &quot;Item ID must be greater than 0&quot;)
+	@Max(value = Long.MAX_VALUE, message = &quot;Item ID must be lesser than &quot; + Long.MAX_VALUE)
+	private long itemId;
+
+	@NotNull(message = &quot;Vendor ID is mandatory&quot;)
+	@Min(value = 1, message = &quot;Vendor ID must be greater than 0&quot;)
+	@Max(value = Long.MAX_VALUE, message = &quot;Vendor ID must be lesser than &quot; + Long.MAX_VALUE)
+	private long vendorId;
+
+	@NotNull(message = &quot;Repair Cost is mandatory&quot;)
+	@Min(value = 1, message = &quot;Repair Cost must be greater than 0&quot;)
+	@Max(value = (long) Double.MAX_VALUE, message = &quot;Repair Cost must be lesser than &quot; + Double.MAX_VALUE)
+	private double repairCost;
+
+	@NotNull(message = &quot;Item Price is mandatory&quot;)
+	@Min(value = 1, message = &quot;Item Price must be greater than 0&quot;)
+	@Max(value = (long) Double.MAX_VALUE, message = &quot;Item Price must be lesser than &quot; + Double.MAX_VALUE)
+	private double price;
+
+<span class="fc" id="L31">	public ItemRepairDto() {</span>
+
+<span class="fc" id="L33">	}</span>
+
+	public ItemRepairDto(long id, long itemId, long vendorId, double repairCost, double price) {
+<span class="fc" id="L36">		super();</span>
+<span class="fc" id="L37">		this.id = id;</span>
+<span class="fc" id="L38">		this.itemId = itemId;</span>
+<span class="fc" id="L39">		this.vendorId = vendorId;</span>
+<span class="fc" id="L40">		this.repairCost = repairCost;</span>
+<span class="fc" id="L41">		this.price = price;</span>
+<span class="fc" id="L42">	}</span>
+
+	public long getId() {
+<span class="fc" id="L45">		return id;</span>
+	}
+
+	public void setId(long id) {
+<span class="fc" id="L49">		this.id = id;</span>
+<span class="fc" id="L50">	}</span>
+
+	public long getItemId() {
+<span class="fc" id="L53">		return itemId;</span>
+	}
+
+	public void setItemId(long itemId) {
+<span class="fc" id="L57">		this.itemId = itemId;</span>
+<span class="fc" id="L58">	}</span>
+
+	public long getVendorId() {
+<span class="fc" id="L61">		return vendorId;</span>
+	}
+
+	public void setVendorId(long vendorId) {
+<span class="fc" id="L65">		this.vendorId = vendorId;</span>
+<span class="fc" id="L66">	}</span>
+
+	public double getRepairCost() {
+<span class="fc" id="L69">		return repairCost;</span>
+	}
+
+	public void setRepairCost(double repairCost) {
+<span class="fc" id="L73">		this.repairCost = repairCost;</span>
+<span class="fc" id="L74">	}</span>
+
+	public double getPrice() {
+<span class="fc" id="L77">		return price;</span>
+	}
+
+	public void setPrice(double price) {
+<span class="fc" id="L81">		this.price = price;</span>
+<span class="fc" id="L82">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
